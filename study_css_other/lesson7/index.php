@@ -7,6 +7,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
     <title>Document</title>
     
 </head>
@@ -14,54 +19,72 @@
     if(!isset($_SESSION['id'])){
 ?>
 <body>
-<h1 style="text-align: center;">Webboard KakKak</h1>
-    <hr>
-    หมวดหมู่ :<select name ="su">
-        <option value="All">--ทั้งหมด--</option>
-        <option value="na">เรื่องทั้วไป</option>
-        <option value="sp">เรื่องเรียน</option>
-    </select>
-    <a style ="float: right;"href= "login.php">เข้าสู่ระบบ</a>
-    
-    <ul>
-    <?php
-        for($i=1;$i<=10;$i++){
-            echo "<li><a href=post.php?id=$i>กระทู้ที่ $i</a></li>";
-        }
-    ?>
-    </ul>
+    <div class="container">
+    <h1 style="text-align: center;">Webboard KakKak</h1>
+    <?php include "nav.php"; ?>
+    <br>
+    <div class="d-flex">
+        <div>
+            <label>หมวดหมู่</label>
+            <span class="dropdown">
+                <button class="btn btn-light dropdown-toggle btn-sm"
+                    type="button" id="dropdown2" data-bs-toggle="dropdown"
+                    aria-expanded="false">--ทั้งหมด--</button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdown2">
+                        <li><a href="#" class="dropdown-item">ทั้งหมด</a></li>
+                        <li><a href="#" class="dropdown-item">เรื่องเรียน</a></li>
+                        <li><a href="#" class="dropdown-item">เรื่องทั่วไป</a></li>
+                    </ul>
+            </span>
+        </div>
+    </div>
+    <br>
+    <table class="table table-striped">
+        <?php 
+            for($i=1;$i<=10;$i++){
+                echo "<tr><td><a href=post.php?id=$i style=text-decoration:none>กระทู้ที่ $i</a></td></tr>";
+            }
+        ?>
+    </table>   
+    </div>
 </body>
 <?php } else{?>
+    
     <body>
+    <div class="container">
     <h1 style="text-align: center;">Webboard KakKak</h1>
-    <hr>
-    หมวดหมู่ :
-    <select name ="su">
-        <option value="All">--ทั้งหมด--</option>
-        <option value="na">เรื่องทั้วไป</option>
-        <option value="sp">เรื่องเรียน</option>
-    </select>
-    <div style="float:right">
-        ผู้ใช้งานระบบ : <?php echo $_SESSION['username'] ?>&nbsp;&nbsp;
-        <a href="logout.php">ออกจากระบบ</a>
-    </div>
-   
+    <?php include "nav.php" ?>
     <br>
-        <a href= "newpost.php">สร้างกระทู้ใหม่</a>
-
-    <ul>
-        <?php
+    <div class="d-flex justify-content-between">
+        <div>
+            <label>หมวดหมู่</label>
+            <span class="dropdown">
+                <button class="btn btn-light dropdown-toggle btn-sm"
+                    type="button" id="dropdown2" data-bs-toggle="dropdown"
+                    aria-expanded="false">--ทั้งหมด--</button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdown2">
+                        <li><a href="#" class="dropdown-item">ทั้งหมด</a></li>
+                        <li><a href="#" class="dropdown-item">เรื่องเรียน</a></li>
+                        <li><a href="#" class="dropdown-item">เรื่องทั่วไป</a></li>
+                    </ul>
+            </span>
+        </div>
+        <div><a href="newpost.php" class="btn btn-success btn-sm"><i class="bi bi-plus-square"></i>สร้างกระทู้</a></div>
+    </div>
+    <br>
+    <table class="table table-striped">
+        <?php 
             for($i=1;$i<=10;$i++){
-                echo "<li>";
-                echo "<a href=post.php?id=$i>กระทู้ที่ $i</a>";
-                if($_SESSION['role']=='a'){
-                echo "&nbsp;&nbsp;&nbsp;<a href=delete.php?id=$i>ลบ</a>";
+                echo "<tr><td><a href=post.php?id=$i style=text-decoration:none>กระทู้ที่ $i</a></td>";
+                if($_SESSION["role"]=="a"){
+                    echo "<td><a href=delete.php?id=$i class='btn btn-danger btn-sm'>
+                    <i class='bi bi-trash'></i></a></td>";
                 }
-                echo"</li>";
-            }           
+                echo "</tr>";
+            }
         ?>
-
-    </ul>
+    </table>
+    </div>
 </body>
 <?php } ?>
 </html>
