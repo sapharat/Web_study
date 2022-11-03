@@ -1,26 +1,28 @@
 <?php
-session_start();
-
-    $User = $_POST["userLogin"];
-    $Password = $_POST["passwordLogin"];
-  
-    if($User == "admin" && $Password == "ad1234"){
-      $_SESSION['username'] =  $User;
-      $_SESSION['role'] = "a";
-      $_SESSION['id'] = session_id();
-      header("Location:index.php");
-    }elseif($User == "member" && $Password == "mem1234"){
-      $_SESSION['username'] =  $User;
-      $_SESSION['role'] = "m";
-      $_SESSION['id'] = session_id();
-      header("Location:index.php");
-    }else{
-      $_SESSION['errormsg'] = "eror";
-      header("Location:login.php");
-    }
-
-    if(isset($_SESSION['id'])){
-      header("Location:index.php");
-      exit(0);
-    }
+  if(isset($_SESSION["username"])&& $_SESSION["id"]==session_id()){
+    header("location:index.php");
+    die();
+  }
+  session_start();
+  $login=$_POST["login"];
+  $password=$_POST["password"];
+  $conn =new PDO("mysql:host=localhost;dbname=webborad;charset=utf8", "root","");
+  $sql="SELECT * FROM user where
+  login='$login' and password=sha1('$password')";
+  $result=$conn->query($sql);
+  if($result->rowCount()==1){
+    $data=$result->fetch(PDO::FETCH_ASSOC);
+    $_SESSION['username']=$data['login'];
+    $_SESSION['role']=$data['role'];
+    $_SESSION['user_id']=$data['id'];
+    $_SESSION['id']=session_id();
+    header("location:index.php");
+    die();
+  }else{
+      $_SESSION["error"]=1;
+      header("location:login.php");
+      die();
+  }
+  $conn=null;  
 ?>
+

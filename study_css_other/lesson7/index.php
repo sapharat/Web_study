@@ -12,12 +12,18 @@ session_start();
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
-
+    <script>
+        function myFunction(){
+            let r = confirm("ต้องการจะลบจริงหรือไม่");
+            return r;
+        }
+    </script>
     <style>
     .loginLink {
         float: right;
     }
     </style>
+
 </head>
 
 <body>
@@ -50,7 +56,7 @@ session_start();
                 <?php 
         if(isset($_SESSION['id'])){
         ?>
-                <span class="">
+                <span class=""> 
                     <a href="newpost.php" type="button" class="btn btn-success btn-sm"><i class="bi bi-plus"></i>
                         สร้างกระทู้ใหม่</a>
                 </span>
@@ -59,16 +65,22 @@ session_start();
 
             <?php } ?>
             <table class="table table-striped">
-
+                
                 <?php
-        for ($i = 1 ; $i <= 10 ; $i++){
-            ?>
-                <tr>
-                    <td class="">
-                        <a style="text-decoration:none" href="post.php?id=<?php echo $i?>">กระทู้ที่ <?php echo $i?></a>
+                $conn = new PDO("mysql:host=localhost;dbname=webboard;charset=utf8","root","");                $sql="SELECT t3.name,t1.id,t1.title,t2.login,t1.post_date FROM post as t1
+                INNER JOIN user as t2 ON (t1.user_id=t2.id) INNER JOIN category as t3 ON
+                (t1.cat_id=t3.id) ORDER BY t1.post_date DESC";
+                $result=$conn->query($sql);
+                while($row=$result->fetch()){
+                    echo "<tr><td>[$row[0] ]<a style=text-decoration:none
+                    href=post.php?id=$row[1]>$row[2]></a><br>
+                    $row[3] - $row[4]</td></tr>";
+                }
+                $conn=null;
+                ?>
 
 
-                        <?php 
+                <?php 
                 if(empty($_SESSION['role'])){
                    
                 }else{
@@ -76,7 +88,8 @@ session_start();
                     if($_SESSION['role'] == 'a'){
                             ?>
                     <td>
-                        <a href="delete.php?id=<?php echo $i?>" class="btn btn-danger btn-sm" type="button">ลบ</a>
+                        <a href="delete.php?id=<?php echo $i?>" class="btn btn-danger btn-sm" type="button"
+                        onclick='return myFunction()'>ลบ</a>
                     </td>
 
                     <?php
@@ -87,7 +100,7 @@ session_start();
                 </tr>
 
                 <?php 
-       }
+       
        ?>
 
             </table>

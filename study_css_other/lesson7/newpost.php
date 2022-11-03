@@ -16,6 +16,7 @@ if(empty($_SESSION['role'])){
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
+    
     <style>
     table,td {
         border: 0;
@@ -30,14 +31,14 @@ if(empty($_SESSION['role'])){
 
 <body>
    <div class="container">
-   <h1 class="Center">Teera Webboard</h1>
+   <h1 class="Center">Sapharat Webboard</h1>
         <hr />
     <?php include "nav.php"?>
     <br>
     <div class="card text-dark bg-white border-info">
         <div class="card-header bg-info text-white">ตั้งกระทู้ใหม่</div>
         <div class="card-body">
-            <form action="newpost_save.php">
+            <form action="newpost_save.php" method="post">
                 <div class="row mb-3">
                     <label class="col-lg-3 col-form-label">หมวดหมู่ :</label>
                     <div class="col-lg-9">
@@ -62,7 +63,7 @@ if(empty($_SESSION['role'])){
                 <div class="row mb-3">
                     <label for="" class="col-lg-3 col-form-label">เนื้อหา : </label>
                     <div class="col-lg-9">
-                        <textarea type="text" name="comment" rows="8" class="form-control" require></textarea>
+                        <textarea type="text" name="content" rows="8" class="form-control" require></textarea>
                     </div>
                 </div>
                 <div class="row">
