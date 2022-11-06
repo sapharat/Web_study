@@ -1,24 +1,20 @@
 <?php
-session_start();
+    session_start();
+    if(!isset($_SESSION['id'])){
+        header("location:login.php");
+        die();
+    }
 
-$categoryid = $_POST['category'];
-$topic = $_POST['topic'];
-$content = $_POST['content'];
-$uid =  $_SESSION["user_id"];
-
-try {
+    $cate = $_POST['category'];
+    $top = $_POST['topic'];
+    $comm = $_POST['comment'];
+    $user = $_SESSION['user_id'];
     $conn = new PDO("mysql:host=localhost;dbname=webboard;charset=utf8","root","");
-    
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    echo "Connected successfully";
-    } catch(PDOException $e) {
-            echo "Connection failed: " . $e->getMessage();
-        }
+    $sql = "INSERT INTO post (title,content,post_date,cat_id,user_id)
+            VALUES ('$top','$comm',NOW(),'$cate','$user')";
+    $conn->exec($sql);
+    $conn=null;
+    header("location:index.php");
+    die();
 
-        $sql = "INSERT INTO post (title , content, post_date , cat_id , user_id) VALUES 
-        ('$topic','$content',NOW(),'$categoryid','$uid')";
-        $conn->exec($sql);
-        $_SESSION['add_post']="success";
-        header("location:newpost.php");
-        
 ?>

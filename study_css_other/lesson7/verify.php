@@ -6,7 +6,7 @@
   session_start();
   $login=$_POST["login"];
   $password=$_POST["password"];
-  $conn =new PDO("mysql:host=localhost;dbname=webborad;charset=utf8", "root","");
+  $conn =new PDO("mysql:host=localhost;dbname=webboard;charset=utf8", "root","");
   $sql="SELECT * FROM user where
   login='$login' and password=sha1('$password')";
   $result=$conn->query($sql);

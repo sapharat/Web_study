@@ -49,7 +49,6 @@ if(empty($_SESSION['role'])){
                             foreach($conn->query($sql) as $row){
                                 echo "<option value=".$row['id'].">".$row['name']."</option>";
                             }$conn=null;
-                           
                            ?>
                         </select>
                     </div>
